@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EDT Config Updater</title>
+    <link rel="shortcut icon" type="image/png" href="https://github.com/evs-dev/EnderDragonTweaks/blob/master/logo-96.png?raw=true" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular|Roboto:bold|Roboto+Mono">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <img src="enderdragon.png" class="dragon"/>
+    <div class="header">
+        <h1>EnderDragonTweaks Config Updater</h1>
+        <p>If you've just updated <a href="https://www.spigotmc.org/resources/enderdragontweaks.82877/">EnderDragonTweaks</a> from an older version, the patch notes may have mentioned that the config version has also been updated.</p>
+        <p>This probably means that <span class="purple-underline">your current config.yml is now old</span> and no longer fully compatible with the latest plugin version.</p>
+        <p>Use this tool to convert your <span class="purple-underline">old</span> config to a <span class="gold-underline">new</span> one. All your custom values will be kept.</p>
+    </div>
+
+    <div class="row">
+        <div class="column">
+            <h2 class="purple-underline">Old Config</h2>
+            <div class="config-toolbar">
+                <select id="old-version" class="purple-border"></select>
+                <button id="clear-button" class="toolbar-button">Clear</button>
+            </div>
+            <textarea id="old-config" class="purple-border" placeholder="Paste your old config here" autofocus spellcheck="false" autocomplete="off"></textarea>
+        </div>
+        <div class="column">
+            <h2 class="gold-underline">New Config</h2>
+            <div class="config-toolbar">
+                <button id="latest-v" class="toolbar-button gold-border" style="flex-grow: 2;" disabled></button>
+                <button id="copy-button" class="toolbar-button">Copy</button>
+            </div>
+            <textarea id="new-config" class="gold-border" placeholder="Your new config will appear here" readonly wrap></textarea>
+        </div>
+    </div>
+
+    <div id="debug" style="white-space:pre-wrap;font-family:monospace;"></div>
+
+    <script src="js-yaml.min.js"></script>
+    <script src="index.js"></script>
+</body>
+</html>
