@@ -78,12 +78,14 @@ async function update(sourceConfigStr, version, recursions = 0) {
     for (let key of autoCopies) {
         let value = getValueAtKey(sourceConfigObj, key);
         if (Array.isArray(value)) value = jsyaml.dump(value, DUMP_OPTIONS);
+        else if (value === undefined || value === null) continue;
         setValueAtKey(targetConfigObj, key, value);
         touchedKeys.push(key);
     }
     for (let [sourceKey, targetKey] of rules.copies) {
         let value = getValueAtKey(sourceConfigObj, sourceKey);
         if (Array.isArray(value)) value = jsyaml.dump(value, DUMP_OPTIONS);
+        else if (value === undefined || value === null) continue;
         setValueAtKey(targetConfigObj, targetKey, value);
         touchedKeys.push(targetKey);
     }
@@ -237,7 +239,12 @@ function getValueAtKey(obj, key) {
     let keys = key.split('.');
     let value = obj;
     for (let key of keys) {
-        value = value[key];
+        try {
+            value = value[key];
+        } catch (e) {
+            error(`Error getting value at key "${key}" - key probably doesn't exist in old config (but it should)`);
+            return undefined;
+        }
     }
     if (key.includes('xp') && false) {
         console.log(obj);
@@ -289,6 +296,7 @@ function copyNewToClipboard() {
 }
 
 function error(message) {
+    if (message === null) message = '';
     console.log(message);
     document.getElementById('debug').innerText = message;
 }
@@ -308,8 +316,13 @@ const COPY_BUTTON = document.getElementById('copy-button');
 const CLEAR_BUTTON = document.getElementById('clear-button');
 
 OLD_CONFIG_INPUT.addEventListener('input', async function () {
+    error(null);
     if (OLD_CONFIG_INPUT.value === '') {
-        CLEAR_BUTTON.onclick();
+        CLEAR_BUTTON.click();
+        return;
+    }
+    if (!OLD_CONFIG_INPUT.value.includes('version:') || !OLD_CONFIG_INPUT.value.includes('enabled:')) {
+        error('Old config is an invalid config format (check that it has the "version" and "enabled" keys present)');
         return;
     }
     detectVersion();
