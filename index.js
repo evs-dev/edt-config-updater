@@ -50,7 +50,7 @@ async function update(sourceConfigStr, version, recursions = 0) {
     try {
         sourceConfigObj = jsyaml.load(sourceConfigStr, 'utf8');
     } catch (e) {
-        console.log('Error parsing old config')
+        error('Error parsing old config')
         return;
     }
     if (sourceConfigObj === undefined) {
@@ -61,7 +61,7 @@ async function update(sourceConfigStr, version, recursions = 0) {
     try {
         response = await fetch(`configs/config-v${version + 1}.yml`);
     } catch (e) {
-        console.log('Error fetching local target config')
+        error('Error fetching local target config')
         return;
     }
     let targetConfigStr = await response.text();
@@ -288,6 +288,11 @@ function copyNewToClipboard() {
     COPY_BUTTON.classList.remove('golden');
 }
 
+function error(message) {
+    console.log(message);
+    document.getElementById('debug').innerText = message;
+}
+
 const V_DROPDOWN = document.getElementById('old-version');
 for (let version of Object.keys(RULES)) {
     let option = document.createElement('option');
@@ -310,12 +315,17 @@ OLD_CONFIG_INPUT.addEventListener('input', async function () {
     detectVersion();
     V_DROPDOWN.disabled = false;
     OLD_CONFIG_INPUT.disabled = true;
-    let output = await update(OLD_CONFIG_INPUT.value, Number(V_DROPDOWN.value));
+    let output;
+    try {
+        output = await update(OLD_CONFIG_INPUT.value, Number(V_DROPDOWN.value));
+    } catch (e) {
+        error('Error updating config:\n' + e.message);
+    }
     OLD_CONFIG_INPUT.disabled = false;
     if (output !== OLD_CONFIG_INPUT.value && OLD_CONFIG_INPUT.value !== '' && output !== undefined) {
         COPY_BUTTON.classList.add('golden');
+        NEW_CONFIG_INPUT.value = output;
     }
-    NEW_CONFIG_INPUT.value = output;
 });
 
 COPY_BUTTON.addEventListener('click', copyNewToClipboard);
