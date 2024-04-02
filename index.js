@@ -296,9 +296,15 @@ function copyNewToClipboard() {
 }
 
 function error(message) {
-    if (message === null) message = '';
+    if (message === null) {
+        OLD_CONFIG_STATUS.style.opacity = 0;
+        OLD_CONFIG_STATUS.style.display = 'none';
+        return;
+    }
     console.log(message);
-    document.getElementById('debug').innerText = message;
+    OLD_CONFIG_STATUS.innerText = message;
+    OLD_CONFIG_STATUS.style.opacity = 0.95;
+    OLD_CONFIG_STATUS.style.display = 'block';
 }
 
 const V_DROPDOWN = document.getElementById('old-version');
@@ -314,6 +320,7 @@ const OLD_CONFIG_INPUT = document.getElementById('old-config');
 const NEW_CONFIG_INPUT = document.getElementById('new-config');
 const COPY_BUTTON = document.getElementById('copy-button');
 const CLEAR_BUTTON = document.getElementById('clear-button');
+const OLD_CONFIG_STATUS = document.getElementById('old-config-status');
 
 OLD_CONFIG_INPUT.addEventListener('input', async function () {
     error(null);
@@ -348,6 +355,7 @@ CLEAR_BUTTON.addEventListener('click', function () {
     NEW_CONFIG_INPUT.value = '';
     COPY_BUTTON.classList.remove('golden');
     V_DROPDOWN.disabled = true;
+    error(null);
 });
 
 document.getElementById('latest-v').innerText = `version: ${LATEST_VERSION}`;

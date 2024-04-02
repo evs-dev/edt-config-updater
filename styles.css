@@ -113,6 +113,22 @@ textarea {
     filter: brightness(0.8);
 }
 
+.toolbar-entity {
+    background-color: var(--bg-colour-lighter);
+    color: var(--text-colour);
+    border: none;
+    border-radius: var(--corner-roundness);
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    font-family: var(--ff-serif);
+    cursor: default;
+    flex-grow: 2;
+    transition: 200ms;
+}
+
 .toolbar-button {
     background-color: var(--bg-colour-lighter);
     color: var(--text-colour);
@@ -131,10 +147,6 @@ textarea {
 
 .toolbar-button:hover {
     filter: brightness(0.95);
-}
-
-.toolbar-button:disabled {
-    cursor: default;
 }
 
 #old-version {
@@ -161,6 +173,24 @@ option {
     color: var(--text-colour);
     font-family: var(--ff-serif);
     font-size: 16px;
+}
+
+.config-status {
+    background-color: var(--bg-colour);
+    color: var(--text-colour);
+    border-radius: var(--corner-roundness);
+    width: 90%;
+    bottom: 70%;
+    display: block;
+    position: relative;
+    margin: auto;
+    min-height: 2em;
+    padding: 8px;
+    font-size: 16px;
+    font-family: var(--ff-serif);
+    opacity: 0%;
+    display: none;
+    transition-duration: 200ms;
 }
 
 .dragon {

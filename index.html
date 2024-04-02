@@ -25,11 +25,12 @@
                 <button id="clear-button" class="toolbar-button">Clear</button>
             </div>
             <textarea id="old-config" class="purple-border" placeholder="Paste your old config here" autofocus spellcheck="false" autocomplete="off"></textarea>
+            <div id="old-config-status" class="config-status purple-border">Hello this is some text<br>And would you believe it, another line! This one's really long to test wrapping. It's even longer, look.</div>
         </div>
         <div class="column">
             <h2 class="gold-underline">New Config</h2>
             <div class="config-toolbar">
-                <button id="latest-v" class="toolbar-button gold-border" style="flex-grow: 2;" disabled></button>
+                <button id="latest-v" class="toolbar-entity gold-border"></button>
                 <button id="copy-button" class="toolbar-button">Copy</button>
             </div>
             <textarea id="new-config" class="gold-border" placeholder="Your new config will appear here" readonly wrap></textarea>
