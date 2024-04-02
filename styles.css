@@ -108,6 +108,11 @@ textarea {
     height: 40px;
 }
 
+:disabled {
+    cursor: not-allowed !important;
+    filter: brightness(0.8);
+}
+
 .toolbar-button {
     background-color: var(--bg-colour-lighter);
     color: var(--text-colour);

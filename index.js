@@ -303,7 +303,12 @@ const COPY_BUTTON = document.getElementById('copy-button');
 const CLEAR_BUTTON = document.getElementById('clear-button');
 
 OLD_CONFIG_INPUT.addEventListener('input', async function () {
+    if (OLD_CONFIG_INPUT.value === '') {
+        CLEAR_BUTTON.onclick();
+        return;
+    }
     detectVersion();
+    V_DROPDOWN.disabled = false;
     OLD_CONFIG_INPUT.disabled = true;
     let output = await update(OLD_CONFIG_INPUT.value, Number(V_DROPDOWN.value));
     OLD_CONFIG_INPUT.disabled = false;
@@ -319,6 +324,7 @@ CLEAR_BUTTON.addEventListener('click', function () {
     OLD_CONFIG_INPUT.value = '';
     NEW_CONFIG_INPUT.value = '';
     COPY_BUTTON.classList.remove('golden');
+    V_DROPDOWN.disabled = true;
 });
 
 document.getElementById('latest-v').innerText = `version: ${LATEST_VERSION}`;
