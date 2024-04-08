@@ -84,7 +84,8 @@ textarea {
     border-radius: var(--corner-roundness);
     background-color: var(--bg-colour-lighter);
     color: var(--text-colour);
-    font-size: 16px;
+    font-family: var(--ff-mono);
+    font-size: 0.8em;
     resize: none;
     white-space: pre-wrap;
 }
@@ -146,19 +147,22 @@ option {
 }
 
 .config-status {
-    background-color: var(--bg-colour);
+    background-color: #25182f;
     color: var(--text-colour);
     border-radius: var(--corner-roundness);
-    width: 90%;
-    bottom: 70%;
+    height: 10vh;
     position: relative;
     margin: auto;
     min-height: 2em;
     padding: 8px;
-    font-size: 16px;
-    font-family: var(--ff-serif);
-    display: none;
+    font-size: 0.8em;
+    font-family: var(--ff-mono);
+    display: inline-block;
     transition-duration: 200ms;
+}
+
+.shortened_textarea {
+    height: calc(50vh - 24px);
 }
 
 .dragon {

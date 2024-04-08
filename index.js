@@ -267,11 +267,13 @@ function copyNewToClipboard() {
 function error(message) {
     if (message === null) {
         OLD_CONFIG_STATUS.style.display = 'none';
+        OLD_CONFIG_INPUT.classList.remove('shortened_textarea');
         return;
     }
     console.log(message);
     OLD_CONFIG_STATUS.innerText = message;
     OLD_CONFIG_STATUS.style.display = 'block';
+    OLD_CONFIG_INPUT.classList.add('shortened_textarea');
 }
 
 const V_DROPDOWN = document.getElementById('old-version');
