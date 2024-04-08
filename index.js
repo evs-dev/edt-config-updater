@@ -266,13 +266,11 @@ function copyNewToClipboard() {
 
 function error(message) {
     if (message === null) {
-        OLD_CONFIG_STATUS.style.opacity = 0;
         OLD_CONFIG_STATUS.style.display = 'none';
         return;
     }
     console.log(message);
     OLD_CONFIG_STATUS.innerText = message;
-    OLD_CONFIG_STATUS.style.opacity = 0.95;
     OLD_CONFIG_STATUS.style.display = 'block';
 }
 
