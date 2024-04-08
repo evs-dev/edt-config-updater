@@ -125,7 +125,6 @@ async function update(sourceConfigStr, version, recursions = 0) {
                     let def = jsyaml.dump(defaultValue, DUMP_OPTIONS);
                     def = def.replaceAll('\n', `"\n${indentation}  `).replaceAll('- ', '- "').trimEnd();
                     toReplace = `${indentation}${lastKey}:\n${indentation}  ${def}`;
-                    //document.getElementById('debug').innerText = toReplace + '\n\n' + targetConfigStr;
                 }
             } else if (POTENTIAL_DUPLICATE_LASTKEYS.includes(lastKey)) {
                 // Presume no comments above
