@@ -157,7 +157,7 @@ option {
     padding: 8px;
     font-size: 0.8em;
     font-family: var(--ff-mono);
-    display: inline-block;
+    display: none;
     transition-duration: 200ms;
 }
 
