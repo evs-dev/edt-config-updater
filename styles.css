@@ -151,7 +151,6 @@ option {
     border-radius: var(--corner-roundness);
     width: 90%;
     bottom: 70%;
-    display: block;
     position: relative;
     margin: auto;
     min-height: 2em;
