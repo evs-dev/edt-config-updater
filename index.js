@@ -72,7 +72,6 @@ async function update(sourceConfigStr, version, recursions = 0) {
     // Parse source obj values and set relevant target obj values
     let rules = RULES[version];
     let autoCopies = flattenKeys(rules.autoCopies, sourceConfigObj);
-    console.log('Autocopies now: ' + JSON.stringify(autoCopies));
 
     let touchedKeys = [];
     for (let key of autoCopies) {
@@ -147,7 +146,6 @@ async function update(sourceConfigStr, version, recursions = 0) {
                         value = value.substring(2, value.length - 1);
                         //value = value.replaceAll('\n', `\n  `)
                     }
-                    console.log('MUST BE DOING THIS ! ! ! ');
                 } else {
                     let def = jsyaml.dump(defaultValue);
                     def = def.substring(0, value.length - 1);
@@ -156,24 +154,10 @@ async function update(sourceConfigStr, version, recursions = 0) {
                 }
             }
         }
-        if (key == 'commands') console.log('COMMANDS to replace: ' + toReplace);
-        console.log(key);
-        if (key == 'xp-drop.enabled') console.log(`Finally setting ${key} to ${getValueAtKey(targetConfigObj, key)}`);
-        if (value === false && key == 'xp-drop.enabled'){
-            console.log('Value truly is false');
-                value = 'false';
-        }
-        if (key == 'xp-drop.enabled') console.log('before:' + targetConfigStr);
-        targetConfigStr = targetConfigStr.replace(toReplace, `${keyNameToSet}: ${value}`) // TODO Not gonna work for lists!
-        if (key == 'xp-drop.enabled') console.log('after:' + targetConfigStr);
+        targetConfigStr = targetConfigStr.replace(toReplace, `${keyNameToSet}: ${value}`)
     }
 
-    // temp
-    //if (version == 3) console.log(sourceConfigStr);
-    console.log('RECURSIONS: ' + recursions);
-    console.log(targetConfigStr);
     //if (version == 1) return targetConfigStr;
-    console.log('THIS ISN EVERG ETTING CALLED!');
 
     if (version >= LATEST_VERSION - 1) {
         return targetConfigStr;
@@ -190,34 +174,30 @@ function flattenKeys(rules, sourceConfigObj) {
         let value = getValueAtKey(sourceConfigObj, ruleKey);
         if (value === null) continue;
         if (typeof value !== 'object' || Array.isArray(value)) {
-            console.log(`${ruleKey} is not an object, so adding to keysToAddBack.`);
+            //console.log(`${ruleKey} is not an object, so adding to keysToAddBack.`);
             keysToAddBack.push(ruleKey);
             continue;
         }
-        console.log(`${ruleKey} is an object, so checking for nested objects.`);
+        //console.log(`${ruleKey} is an object, so checking for nested objects.`);
         let keysWithObjects = [ruleKey];
         let iters = 0;
         while (keysWithObjects.length > 0) {
             let kwoToRemove = [];
             for (let keyWithObj of keysWithObjects) {
                 obj = getValueAtKey(sourceConfigObj, keyWithObj);
-                console.log(`Working on ${keyWithObj} which has value ${JSON.stringify(obj)}.`);
-                if (obj == false) {
-                    console.log(`A falsey!!!! WHY`);
-                }
                 if (obj === null) {
                     kwoToRemove.push(keyWithObj);
                     continue;
                 }
                 for (let [key, val] of Object.entries(obj)) {
                     let str = keyWithObj + '.' + key;
-                    console.log(`Checking ${str} with value ${val}.`);
+                    //console.log(`Checking ${str} with value ${val}.`);
                     if (typeof val === 'object' && !Array.isArray(val)) {
-                        console.log(`${str} is an object, so adding to keysWithObjects.`);
+                        //console.log(`${str} is an object, so adding to keysWithObjects.`);
                         if (!keysWithObjects.includes(str)) keysWithObjects.push(str);
                         continue;
                     }
-                    console.log(`${str} is not an object, so adding to keysToAddBack.`);
+                    //console.log(`${str} is not an object, so adding to keysToAddBack.`);
                     if (!keysToAddBack.includes(str)) keysToAddBack.push(str);
                 }
                 kwoToRemove.push(keyWithObj);
@@ -226,8 +206,6 @@ function flattenKeys(rules, sourceConfigObj) {
                 if (keysWithObjects.includes(kwo))
                     keysWithObjects = removeItemFromArr(keysWithObjects, kwo);
             }
-            console.log(keysWithObjects);
-            console.log(keysToAddBack);
             iters++;
             if (iters > 500) break;
         }
@@ -246,11 +224,6 @@ function getValueAtKey(obj, key) {
             return undefined;
         }
     }
-    if (key.includes('xp') && false) {
-        console.log(obj);
-        console.log(keys);
-        console.log(`value of ${key} = ${value}`);
-    }
     return value;
 }
 
@@ -261,10 +234,7 @@ function setValueAtKey(obj, key, value) {
     for (let key of keys) {
         target = target[key];
     }
-    console.log(`COW Setting ${key} to ${value}`);
     target[lastKey] = value;
-    if (key == 'xp-drop.enabled') console.log(obj);
-    if (key == 'xp-drop.enabled') console.log(target);
 }
 
 function removeItemFromArr(arr, value) {
